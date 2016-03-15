@@ -2,11 +2,11 @@
 
 update 2016-03-16:
 
-修复之前的程序错误
+修复之前的程序错误:
 
-	* db.sql与程序逻辑对不上
+  - db.sql与程序逻辑对不上
 
-	* noeye.php 66行 mysql_real_escape_string修改成addslashes函数对输入数据处理。
+  - noeye.php 66行 mysql_real_escape_string修改成addslashes函数对输入数据处理。
 
 ##How to use?
 > http://localhost/noeye.php?uk=md5(userkey)
