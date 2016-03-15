@@ -11,7 +11,7 @@ function GetMyConnection()
     global $g_link;
     if( $g_link )
         return $g_link;
-    $g_link = mysql_connect( 'localhost', 'noeyeuser', 'noeye_n033y3_') or die('Could not connect to server.' );
+    $g_link = mysql_connect( 'localhost', 'root', 'root') or die('Could not connect to server.' );
     mysql_select_db('noeye', $g_link) or die('Could not select database.');
     return $g_link;
 }
@@ -63,7 +63,7 @@ function CleanUpDB()
  }
 
 if(isset($_GET['uk'])){
-     $k=mysql_real_escape_string ($_GET['uk']);
+     $k=addslashes($_GET['uk']);
     if(strlen($k)==32){
         QueryUk($k);
     }
