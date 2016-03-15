@@ -7,7 +7,7 @@ update 2016-03-16:
 ##How to use?
 > http://localhost/noeye.php?uk=md5(userkey)
 
-origin readme:
+Original readme:
 	
 	A blind exploit tool( a dns server and a web app) that like wvs's AcuMonitor Service or burpsuite's collabrator or cloudeye!
 
