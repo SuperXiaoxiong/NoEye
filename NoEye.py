@@ -19,8 +19,8 @@ import traceback
 
 #db config
 host="localhost"
-user="noeyeuser"
-password="noeye_n033y3_"
+user="root"
+password="root"
 database="noeye"
 db=None
 domainname="noeye.com"
