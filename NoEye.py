@@ -2,6 +2,7 @@
 # coding: utf-8
 
 """
+fixed by SuperX
 NoeYe by KibodWapon
 Reference(s):
         http://code.activestate.com/recipes/491264-mini-fake-dns-server/
@@ -23,14 +24,15 @@ user="root"
 password="root"
 database="noeye"
 db=None
-domainname="noeye.com"
+domainname="domainname"
+subdomain='subdomain'
 
 def esc(s):
     return MySQLdb.escape_string(s)
 
 #insert or update
 def sqlquery(sql):
-    print sql
+    #print sql
     #replace single quote
     global  db
     global host
@@ -69,13 +71,13 @@ def sqlquery(sql):
 
 '''
 insert one dns record
-root@localhost.A26AD089D4B88BFEDFD06DF26165AC94.yourdomain.com
-data            userkey                          domain
+root@localhost.dns.yourdomain.com
+data        subdomain     domain
 
 
+param  looks like root@localhost
+'''
 
-
-param prefixdata looks like root@localhost.A26AD089D4B88BFEDFD06DF26165AC94.
 '''
 def insertdnsquery(prefixdata):
     try:
@@ -96,6 +98,14 @@ def insertdnsquery(prefixdata):
         return  sqlquery(sql)
     except:
         pass
+'''
+def insertdnsquery(prefixdata):
+    print esc(prefixdata)
+    sql = "insert into dns_query(prefixdata) values('%s')" % esc(prefixdata)
+    return sqlquery(sql)
+
+
+
 class DNSQuery(object):
     """
     Used for making fake DNS resolution responses based on received
@@ -155,7 +165,7 @@ class DNSServer(object):
     def pop(self, prefix=None, suffix=None):
         """
         Returns received DNS resolution request (if any) that has given
-        prefix/suffix combination (e.g. prefix.<query result>.suffix.domain)
+        prefix/suffix combination (e.g. <query result>.subdomain.domain)
         """
 
         retVal = None
@@ -216,8 +226,8 @@ if __name__ == "__main__":
                 else:
                     #print "[i] %s" % _
                     if not _.endswith("in-addr.arpa."):
-                        print _[0:-1]
-                        insertdnsquery(_[0:-(len(domainname)+1)])
+                        #print _[0:-1]
+                        insertdnsquery(_[0:-(len(domainname) + len(subdomain)+ 3)])
 
             time.sleep(1)
 

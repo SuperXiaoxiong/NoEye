@@ -1,7 +1,8 @@
 <?php 
-//?vk=xxx&k  victime accessed
-//?uk=xx  user visite
-//condition md5(uk)==vk
+//这是一个数据库信息查询页面，直接查询数据库信息并返回
+//如果需要增加安全性，可以使用.htaccess对该php的访问做限制
+//TODO 有时间有需要扩展就用python写一个页面
+
 
 error_reporting(E_ERROR);
 $g_link = false;
@@ -24,58 +25,31 @@ function CleanUpDB()
     $g_link = false;
 }
 
- function QueryUk($uk){
-     $con=GetMyConnection();
-     $query = sprintf("SELECT prefixdata, lastaccess FROM dns_query
-    WHERE  user_key='%s'",         
-         mysql_real_escape_string($uk));
+ 
+  function Query(){
+    $con=GetMyConnection();
+    $query = sprintf("SELECT prefixdata, lastaccess FROM dns_query");
      
      // Perform Query
-     $result = mysql_query($query,$con);
-     while ($row = mysql_fetch_assoc($result)) {
+    $result = mysql_query($query,$con);
+    while ($row = mysql_fetch_assoc($result)) {
              echo $row['prefixdata']."<------->";             
              echo $row['lastaccess']."<br/>"; ;        
-     }
+    }
      
-     $query = sprintf("SELECT queried_key, lastaccess FROM url_query
-    WHERE  user_key='%s'",
-         mysql_real_escape_string($uk));
+    $query = sprintf("SELECT queried_key, lastaccess FROM url_query");
       
      // Perform Query
-     $result = mysql_query($query,$con);
-     while ($row = mysql_fetch_assoc($result)) {
+    $result = mysql_query($query,$con);
+    while ($row = mysql_fetch_assoc($result)) {
          echo $row['queried_key']."<------->";
          echo $row['lastaccess']."<br/>"; ;
-     }
+    }
       
     
-     CleanUpDB();
-      
-     
+    CleanUpDB();   
  }
- function InsertVk($k,$uk){
-     $con=GetMyConnection();
-     $query = sprintf("insert into url_query(queried_key,user_key) values('%s','%s')",
-          mysql_real_escape_string($k),mysql_real_escape_string($uk)); 
-     $result = mysql_query($query,$con);   
-     CleanUpDB();
-     
- }
+Query();
 
-if(isset($_GET['uk'])){
-     $k=addslashes($_GET['uk']);
-    if(strlen($k)==32){
-        QueryUk($k);
-    }
-    die;
-}
-if(isset($_GET['vk'])&& isset($_GET['k'])){
-    // vk 48e59e6d39edfa5174a493dfc2daac49  -> uk A26AD089D4B88BFEDFD06DF26165AC94 
-   
-    if ($_GET['vk']=="48e59e6d39edfa5174a493dfc2daac49"){       
-        InsertVk($_GET['k'],"A26AD089D4B88BFEDFD06DF26165AC94");
-    }
-    die;
-}
 
 ?>
