@@ -33,7 +33,7 @@ function CleanUpDB()
      // Perform Query
     $result = mysql_query($query,$con);
     while ($row = mysql_fetch_assoc($result)) {
-             echo $row['prefixdata']."<------->";             
+             echo htmlentities($row['prefixdata'], ENT_QUOTES)."<------->";             
              echo $row['lastaccess']."<br/>"; ;        
     }
      
@@ -42,7 +42,7 @@ function CleanUpDB()
      // Perform Query
     $result = mysql_query($query,$con);
     while ($row = mysql_fetch_assoc($result)) {
-         echo $row['queried_key']."<------->";
+         echo htmlentities($row['queried_key'], ENT_QUOTES)."<------->";
          echo $row['lastaccess']."<br/>"; ;
     }
       
